@@ -1,5 +1,6 @@
 from login import makeLogin
-from users import showUsersCrudMenu
+from tickets import showTicketsCrudMenu
+from users import showUsersDataMenu
 
 from helpers.menu import exitApp, showWrongMenuMessage
 
@@ -10,6 +11,7 @@ def startMenu():
     while True:
         print("Integração de Python com API de Tickets")
         print("1. Dados de Usuários")
+        print("2. Dados dos Tickets")
         print("3. Fazer Login")
         print("9. Sair")
 
@@ -17,7 +19,10 @@ def startMenu():
         print("\n")
 
         if selectedOption == 1:
-            showUsersCrudMenu(authToken)
+            showUsersDataMenu(authToken)
+
+        elif selectedOption == 2:
+            showTicketsCrudMenu(authToken)
 
         elif selectedOption == 3:
             loginToken = makeLogin()

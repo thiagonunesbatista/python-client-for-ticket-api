@@ -6,10 +6,10 @@ from helpers.auth import showFailedCredentialsMessage
 from helpers.menu import goBackMenuMessage, showWrongMenuMessage
 
 
-def showUsersCrudMenu(authToken):
+def showUsersDataMenu(authToken):
 
     while True:
-        print("CRUD de usuários")
+        print("Dados de usuários")
         print("1. Criar")
         print("2. Listar")
         print("3. Voltar")
@@ -65,7 +65,7 @@ def listUsers():
     responseInJson = listUsersResponse.json()
 
     if len(responseInJson) == 0:
-        print("Não há usuários cadastrados")
+        print("Não há usuários cadastrados\n")
         return
 
     for currentUser in responseInJson:
