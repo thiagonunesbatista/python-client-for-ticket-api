@@ -45,6 +45,10 @@ def listUsers():
 
     responseInJson = listUsersResponse.json()
 
+    if(len(responseInJson) == 0):
+        print("Não há usuários cadastrados")
+        return
+
     for currentUser in responseInJson:
         print(f"Nome: {currentUser['name']}")
         print(f"Email: {currentUser['email']}")
