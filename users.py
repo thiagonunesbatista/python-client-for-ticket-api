@@ -1,14 +1,12 @@
 import requests
 
-from constants import baseUrl, userResourceUrl
+from constants import userResourceUrl
 
+from helpers.auth import showFailedCredentialsMessage
 from helpers.menu import goBackMenuMessage, showWrongMenuMessage
 
 
-usersResourceFullUrl = baseUrl + userResourceUrl
-
-
-def showUsersCrudMenu():
+def showUsersCrudMenu(authToken):
 
     while True:
         print("CRUD de usuários")
@@ -20,7 +18,7 @@ def showUsersCrudMenu():
         print("\n")
 
         if selectedOption == 1:
-            createUser()
+            createUser(authToken)
         elif selectedOption == 2:
             listUsers()
         elif selectedOption == 3:
@@ -30,14 +28,35 @@ def showUsersCrudMenu():
             showWrongMenuMessage()
 
 
-def createUser():
-    print("Create User")
+def createUser(authToken):
+    print("Criação de usuário")
+
+    if not authToken:
+        showFailedCredentialsMessage()
+        return
+
+    print("Digite os dados do usuário:")
+
+    userName = input("Nome: ")
+    userEmail = input("Email: ")
+    userPassword = input("Senha: ")
+
+    createUserResponse = requests.post(
+        userResourceUrl,
+        json={"email": userEmail, "password": userPassword, "name": userName},
+    )
+
+    if createUserResponse.status_code != 201:
+        print("Erro interno ao tentar criar usuário")
+        return
+
+    print("\nUsuário criado com sucesso\n")
 
 
 def listUsers():
     print("Listagem de Usuários")
 
-    listUsersResponse = requests.get(usersResourceFullUrl)
+    listUsersResponse = requests.get(userResourceUrl)
 
     if listUsersResponse.status_code != 200:
         print("Erro... Não foi possível trazer os dados de usuários")
@@ -45,7 +64,7 @@ def listUsers():
 
     responseInJson = listUsersResponse.json()
 
-    if(len(responseInJson) == 0):
+    if len(responseInJson) == 0:
         print("Não há usuários cadastrados")
         return
 

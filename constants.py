@@ -1,2 +1,3 @@
 baseUrl = "http://localhost:3000"
-userResourceUrl = "/users"
+loginResourceUrl = baseUrl + "/login"
+userResourceUrl = baseUrl + "/users"
