@@ -1,12 +1,8 @@
 from users import showUsersCrudMenu
+from helpers.menu import exitApp, showWrongMenuMessage
 
 
 def startMenu():
-    def showWrongMenuMessage():
-        print("Esta opção não existe, tente novamente !!!")
-
-    def exitApp():
-        print("Saindo do APP...")
 
     while True:
         print("Integração de Python com API de Tickets")
