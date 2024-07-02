@@ -1,8 +1,14 @@
+import requests
+
+from constants import baseUrl, userResourceUrl
+
 from helpers.menu import goBackMenuMessage, showWrongMenuMessage
 
 
+usersResourceFullUrl = baseUrl + userResourceUrl
+
+
 def showUsersCrudMenu():
-  
 
     while True:
         print("CRUD de usuários")
@@ -15,7 +21,7 @@ def showUsersCrudMenu():
 
         if selectedOption == 1:
             createUser()
-        elif selectedOption == 1:
+        elif selectedOption == 2:
             listUsers()
         elif selectedOption == 3:
             goBackMenuMessage()
@@ -29,4 +35,17 @@ def createUser():
 
 
 def listUsers():
-    print("List Users")
+    print("Listagem de Usuários")
+
+    listUsersResponse = requests.get(usersResourceFullUrl)
+
+    if listUsersResponse.status_code != 200:
+        print("Erro... Não foi possível trazer os dados de usuários")
+        return
+
+    responseInJson = listUsersResponse.json()
+
+    for currentUser in responseInJson:
+        print(f"Nome: {currentUser['name']}")
+        print(f"Email: {currentUser['email']}")
+        print("\n")
