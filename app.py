@@ -6,7 +6,7 @@ def startMenu():
 
     while True:
         print("Integração de Python com API de Tickets")
-        print("1. CRUD de Usuários")
+        print("1. Dados de Usuários")
         print("9. Sair")
 
         selectedOption = int(input("Opção: "))

@@ -1,5 +1,6 @@
 def goBackMenuMessage():
     print("Retornando ao menu anterior...")
+    print("\n")
 
 
 def showWrongMenuMessage():
