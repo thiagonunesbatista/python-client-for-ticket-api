@@ -12,12 +12,10 @@ def makeLogin():
     )
 
     if loginResponse.status_code != 200:
-        print("Login ou Senha inválidos")
-        print("\n")
+        print("Login ou Senha inválidos\n")
         return
 
-    print("Login realizado com sucesso!")
-    print("\n")
+    print("Login realizado com sucesso!\n")
     loginResponseInJson = loginResponse.json()
 
     return loginResponseInJson["token"]
