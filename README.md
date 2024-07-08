@@ -15,7 +15,7 @@ python3 app.py
 Install the Black package with
 
 ```
-pip install black
+pip install black InquirerPy matplotlib
 ```
 
 Execute Black in the command line
