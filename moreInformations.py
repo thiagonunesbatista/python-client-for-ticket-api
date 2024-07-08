@@ -32,7 +32,7 @@ def showMoreInformationMenu():
 
 
 def filtedTicketsPerType():
-    print("Listagem Filtrada por Tipo de Tickets")
+    print("Grafico Filtrado por Tipo de Tickets")
     print("\n")
 
     isShow = 0
@@ -72,7 +72,7 @@ def filtedTicketsPerType():
 
 
 def numberTicketsPerUser():
-    print("Listagem Filtrada")
+    print("Numero de Tickets Comprado Por Usuarios")
 
     listTicketsResponse = requests.get(ticketsResourceUrl)
     listUsersResponse = requests.get(userResourceUrl)
