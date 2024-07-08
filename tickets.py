@@ -1,5 +1,8 @@
 import requests
 
+from InquirerPy import inquirer
+from InquirerPy.base.control import Choice
+
 from constants import ticketsResourceUrl
 
 from helpers.auth import showFailedCredentialsMessage
@@ -36,6 +39,37 @@ def createTicket(authToken):
     if not authToken:
         showFailedCredentialsMessage()
         return
+
+    print("Digite os dados para adicionar tickets:")
+
+    descriptionEvent = input("Descrição do Evento: ")
+    eventName = input("Nome do evento: ")
+    price = float(input("Preço: "))
+
+    eventType = inquirer.select(
+        message="Selecione o tipo de Ticket:",
+        choices=[
+            Choice(value="Show", name="Show"),
+            Choice(value="StardUp", name="StardUp"),
+        ],
+        default=None,
+    ).execute()
+
+    createTicketResponse = requests.post(
+        ticketsResourceUrl,
+        json={
+            "description": descriptionEvent,
+            "eventName": eventName,
+            "price": price,
+            "type": eventType,
+        },
+    )
+
+    if createTicketResponse.status_code != 201:
+        print("Erro interno ao tentar criar o ticket")
+        return
+
+    print("\nTicket criado com sucesso\n")
 
 
 def listTickets():
