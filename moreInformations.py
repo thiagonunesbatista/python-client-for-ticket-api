@@ -8,7 +8,7 @@ from operator import itemgetter
 
 from constants import ticketsResourceUrl, userResourceUrl
 
-from helpers.menu import showWrongMenuMessage, goBackMenuMessage, exitApp
+from helpers.menu import showWrongMenuMessage, goBackMenuMessage, exitApp, confirmBack
 from helpers.clean import clean
 
 
@@ -51,10 +51,12 @@ def filtedTicketsPerType():
 
     if listTicketsResponse.status_code != 200:
         print("Erro... Não foi possível trazer os dados de tickets")
+        confirmBack()
         return
 
     if len(responseInJson) == 0:
         print("Não há tickets cadastrados\n")
+        confirmBack()
         return
 
     for isCurrentTicketType in responseInJson:
@@ -78,7 +80,6 @@ def filtedTicketsPerType():
     plt.show()
 
 
-
 def numberTicketsPerUser():
     print("Numero de Tickets Comprado Por Usuarios")
 
@@ -91,10 +92,12 @@ def numberTicketsPerUser():
 
     if listTicketsResponse.status_code != 200:
         print("Erro... Não foi possível trazer os dados de tickets")
+        confirmBack()
         return
 
     if len(responseTicketInJson) == 0:
         print("Não há tickets cadastrados\n")
+        confirmBack()
         return
     
     print("\n")
@@ -107,8 +110,5 @@ def numberTicketsPerUser():
                 print(f"> {currentUser["name"]:7s} {"=" *30} { len(list(value))} Tickets Comprados ")
     print("\n")
     
-    isTrue = inquirer.confirm(message="Voltar?", default=False).execute()
-    
-    if isTrue == False:
-        exitApp()
-        exit()
+    confirmBack()
+

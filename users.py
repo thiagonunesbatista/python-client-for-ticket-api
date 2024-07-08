@@ -6,7 +6,7 @@ from InquirerPy.base.control import Choice
 from constants import userResourceUrl
 
 from helpers.auth import showFailedCredentialsMessage
-from helpers.menu import goBackMenuMessage, showWrongMenuMessage
+from helpers.menu import goBackMenuMessage, showWrongMenuMessage, confirmBack
 from helpers.clean import clean
 
 
@@ -40,6 +40,7 @@ def createUser(authToken):
 
     if not authToken:
         showFailedCredentialsMessage()
+        confirmBack()
         return
 
     print("Digite os dados do usuário:")
@@ -57,9 +58,12 @@ def createUser(authToken):
     )
     if createUserResponse.status_code != 201:
         print("Erro interno ao tentar criar usuário")
+        confirmBack()
         return
 
     print("\nUsuário criado com sucesso\n")
+
+    confirmBack()
 
 
 def listUsers():
@@ -69,15 +73,19 @@ def listUsers():
 
     if listUsersResponse.status_code != 200:
         print("Erro... Não foi possível trazer os dados de usuários")
+        confirmBack()
         return
 
     responseInJson = listUsersResponse.json()
 
     if len(responseInJson) == 0:
         print("Não há usuários cadastrados\n")
+        confirmBack()
         return
 
     for currentUser in responseInJson:
         print(f"Nome: {currentUser['name']}")
         print(f"Email: {currentUser['email']}")
         print("\n")
+
+    confirmBack()

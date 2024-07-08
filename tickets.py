@@ -6,7 +6,7 @@ from InquirerPy.base.control import Choice
 from constants import ticketsResourceUrl
 
 from helpers.auth import showFailedCredentialsMessage
-from helpers.menu import goBackMenuMessage, showWrongMenuMessage
+from helpers.menu import goBackMenuMessage, showWrongMenuMessage, confirmBack
 from helpers.clean import clean
 
 
@@ -46,6 +46,7 @@ def createTicket(authToken):
 
     if not authToken:
         showFailedCredentialsMessage()
+        confirmBack()
         return
 
     print("Digite os dados para adicionar tickets:")
@@ -58,7 +59,7 @@ def createTicket(authToken):
         message="Selecione o tipo de Ticket:",
         choices=[
             Choice(value="Show", name="Show"),
-            Choice(value="StardUp", name="StardUp"),
+            Choice(value="Stand_Up", name="StardUp"),
         ],
         default=None,
     ).execute()
@@ -78,9 +79,12 @@ def createTicket(authToken):
 
     if createTicketResponse.status_code != 201:
         print("Erro interno ao tentar criar o ticket")
+        confirmBack()
         return
 
     print("\nTicket criado com sucesso\n")
+
+    confirmBack()
 
 
 def listTickets():
@@ -90,12 +94,14 @@ def listTickets():
 
     if listTicketsResponse.status_code != 200:
         print("Erro... Não foi possível trazer os dados de tickets")
+        confirmBack()
         return
 
     responseInJson = listTicketsResponse.json()
 
     if len(responseInJson) == 0:
         print("Não há tickets cadastrados\n")
+        confirmBack()
         return
 
     for currentTicket in responseInJson:
@@ -104,11 +110,14 @@ def listTickets():
         print(f"Preço: R$ {currentTicket['price']}")
         print("\n")
 
+    confirmBack()
+
 
 def deleteTicket(authToken):
 
     if not authToken:
         showFailedCredentialsMessage()
+        confirmBack()
         return
 
     listTicketsResponse = requests.get(ticketsResourceUrl)
@@ -131,6 +140,9 @@ def deleteTicket(authToken):
 
     if deleteTicketResponse.status_code != 200:
         print("Erro interno ao tentar excluir o ticket")
+        confirmBack()
         return
 
     print("\nTicket Excluido com sucesso\n")
+
+    confirmBack()
