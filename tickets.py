@@ -55,6 +55,8 @@ def createTicket(authToken):
         default=None,
     ).execute()
 
+    headderTokenAuth = {"Authorization": "Bearer " + authToken}
+
     createTicketResponse = requests.post(
         ticketsResourceUrl,
         json={
@@ -63,6 +65,7 @@ def createTicket(authToken):
             "price": price,
             "type": eventType,
         },
+        headers=headderTokenAuth,
     )
 
     if createTicketResponse.status_code != 201:

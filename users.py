@@ -41,11 +41,13 @@ def createUser(authToken):
     userEmail = input("Email: ")
     userPassword = input("Senha: ")
 
+    headderTokenAuth = {"Authorization": "Bearer " + authToken}
+
     createUserResponse = requests.post(
         userResourceUrl,
         json={"email": userEmail, "password": userPassword, "name": userName},
+        headers=headderTokenAuth,
     )
-
     if createUserResponse.status_code != 201:
         print("Erro interno ao tentar criar usuário")
         return
