@@ -14,6 +14,7 @@ def showTicketsCrudMenu(authToken):
         print("CRUD de Tickets")
         print("1. Criar")
         print("2. Listar")
+        print("3. Deletar")
         print("9. Voltar")
 
         selectedOption = int(input("Opção: "))
@@ -24,6 +25,9 @@ def showTicketsCrudMenu(authToken):
 
         elif selectedOption == 2:
             listTickets()
+
+        elif selectedOption == 3:
+            deleteTicket(authToken)
 
         elif selectedOption == 9:
             goBackMenuMessage()
@@ -95,3 +99,34 @@ def listTickets():
         print(f"Descrição: {currentTicket['description']}")
         print(f"Preço: R$ {currentTicket['price']}")
         print("\n")
+
+
+def deleteTicket(authToken):
+
+    if not authToken:
+        showFailedCredentialsMessage()
+        return
+
+    listTicketsResponse = requests.get(ticketsResourceUrl)
+    responseTicketInJson = listTicketsResponse.json()
+
+    nameTicketToBeDeleted = input("Escreva o nome do Ticket que deseja Deletar: ")
+
+    headderTokenAuth = {"Authorization": "Bearer " + authToken}
+
+    ticketId = 0
+    for currentTicket in responseTicketInJson:
+        if nameTicketToBeDeleted == currentTicket["eventName"]:
+            ticketId = currentTicket["id"]
+
+    ticketFiltredPerIdUrl = f"{ticketsResourceUrl}/{ticketId}"
+
+    deleteTicketResponse = requests.delete(
+        ticketFiltredPerIdUrl, headers=headderTokenAuth
+    )
+
+    if deleteTicketResponse.status_code != 200:
+        print("Erro interno ao tentar excluir o ticket")
+        return
+
+    print("\nTicket Excluido com sucesso\n")
