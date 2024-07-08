@@ -7,29 +7,33 @@ from constants import ticketsResourceUrl
 
 from helpers.auth import showFailedCredentialsMessage
 from helpers.menu import goBackMenuMessage, showWrongMenuMessage
+from helpers.clean import clean
 
 
 def showTicketsCrudMenu(authToken):
     while True:
-        print("CRUD de Tickets")
-        print("1. Criar")
-        print("2. Listar")
-        print("3. Deletar")
-        print("9. Voltar")
+        clean()
+        selectMenu = inquirer.select(
+            message="CRUD de Tickets:",
+            choices=[
+                Choice(value=1, name="Criar"),
+                Choice(value=2, name="Listar"),
+                Choice(value=3, name="Deletar"),
+                Choice(value=4, name="Voltar"),
+            ],
+            default=None,
+        ).execute()
 
-        selectedOption = int(input("Opção: "))
-        print("\n")
-
-        if selectedOption == 1:
+        if selectMenu == 1:
             createTicket(authToken)
 
-        elif selectedOption == 2:
+        elif selectMenu == 2:
             listTickets()
 
-        elif selectedOption == 3:
+        elif selectMenu == 3:
             deleteTicket(authToken)
 
-        elif selectedOption == 9:
+        elif selectMenu == 4:
             goBackMenuMessage()
             break
 

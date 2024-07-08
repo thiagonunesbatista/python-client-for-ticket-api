@@ -3,39 +3,46 @@ from tickets import showTicketsCrudMenu
 from users import showUsersDataMenu
 from moreInformations import showMoreInformationMenu
 
+from InquirerPy import inquirer
+from InquirerPy.base.control import Choice
+
 from helpers.menu import exitApp, showWrongMenuMessage
+from helpers.clean import clean
 
 
 def startMenu():
     authToken = ""
 
     while True:
-        print("Integração de Python com API de Tickets")
-        print("1. Dados de Usuários")
-        print("2. Dados dos Tickets")
-        print("3. Informações Adicionais")
-        print("4. Fazer Login")
-        print("9. Sair")
+        clean()
+        selectMenu = inquirer.select(
+            message="Integração de Python com API de Tickets: ",
+            choices=[
+                Choice(value=1, name="Dados de Usuários"),
+                Choice(value=2, name="Dados dos Tickets"),
+                Choice(value=3, name="Informações Adicionais"),
+                Choice(value=4, name="Fazer Login"),
+                Choice(value=5, name="Sair"),
+            ],
+            default=None,
+        ).execute()
 
-        selectedOption = int(input("Opção: "))
-        print("\n")
-
-        if selectedOption == 1:
+        if selectMenu == 1:
             showUsersDataMenu(authToken)
 
-        elif selectedOption == 2:
+        elif selectMenu == 2:
             showTicketsCrudMenu(authToken)
 
-        elif selectedOption == 3:
+        elif selectMenu == 3:
             showMoreInformationMenu()
 
-        elif selectedOption == 4:
+        elif selectMenu == 4:
             loginToken = makeLogin()
 
             if loginToken:
                 authToken = loginToken
 
-        elif selectedOption == 9:
+        elif selectMenu == 5:
             exitApp()
             break
         else:

@@ -2,8 +2,11 @@ import requests
 
 from constants import loginResourceUrl
 
+from helpers.clean import clean
+
 
 def makeLogin():
+    clean()
     email = input("Digite seu Email: ")
     password = input("Digite sua senha: ")
 

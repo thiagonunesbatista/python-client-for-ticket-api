@@ -1,27 +1,34 @@
 import requests
 
+from InquirerPy import inquirer
+from InquirerPy.base.control import Choice
+
 from constants import userResourceUrl
 
 from helpers.auth import showFailedCredentialsMessage
 from helpers.menu import goBackMenuMessage, showWrongMenuMessage
+from helpers.clean import clean
 
 
 def showUsersDataMenu(authToken):
 
     while True:
-        print("Dados de usuários")
-        print("1. Criar")
-        print("2. Listar")
-        print("3. Voltar")
+        clean()
+        selectMenu = inquirer.select(
+            message="Dados de usuários:",
+            choices=[
+                Choice(value=1, name="Criar"),
+                Choice(value=2, name="Listar"),
+                Choice(value=3, name="Voltar"),
+            ],
+            default=None,
+        ).execute()
 
-        selectedOption = int(input("Opção: "))
-        print("\n")
-
-        if selectedOption == 1:
+        if selectMenu == 1:
             createUser(authToken)
-        elif selectedOption == 2:
+        elif selectMenu == 2:
             listUsers()
-        elif selectedOption == 3:
+        elif selectMenu == 3:
             goBackMenuMessage()
             break
         else:

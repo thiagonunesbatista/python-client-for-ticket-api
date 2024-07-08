@@ -1,29 +1,37 @@
 import requests
+import matplotlib.pyplot as plt
+
+from InquirerPy import inquirer
+from InquirerPy.base.control import Choice
 from itertools import groupby, count
 from operator import itemgetter
-import matplotlib.pyplot as plt
 
 from constants import ticketsResourceUrl, userResourceUrl
 
-from helpers.menu import showWrongMenuMessage, goBackMenuMessage
+from helpers.menu import showWrongMenuMessage, goBackMenuMessage, exitApp
+from helpers.clean import clean
 
 
 def showMoreInformationMenu():
     while True:
-        print("1. Grafico de Número de Tickets de um Tipo")
-        print("2. Listar Numero de Tickets por Usuario")
-        print("9. Voltar")
+        clean()
+        selectMenu = inquirer.select(
+            message="Mais Informações e Opções da APi:",
+            choices=[
+                Choice(value=1, name="Grafico de Número de Tickets de um Tipo"),
+                Choice(value=2, name="Listar Numero de Tickets por Usuario"),
+                Choice(value=3, name="Voltar"),
+            ],
+            default=None,
+        ).execute()
 
-        selectedOption = int(input("Opção: "))
-        print("\n")
-
-        if selectedOption == 1:
+        if selectMenu == 1:
             filtedTicketsPerType()
 
-        elif selectedOption == 2:
+        elif selectMenu == 2:
             numberTicketsPerUser()
 
-        elif selectedOption == 9:
+        elif selectMenu == 3:
             goBackMenuMessage()
             break
 
@@ -98,4 +106,9 @@ def numberTicketsPerUser():
             if currentUser["id"] == key:
                 print(f"> {currentUser["name"]:7s} {"=" *30} { len(list(value))} Tickets Comprados ")
     print("\n")
-
+    
+    isTrue = inquirer.confirm(message="Voltar?", default=False).execute()
+    
+    if isTrue == False:
+        exitApp()
+        exit()
